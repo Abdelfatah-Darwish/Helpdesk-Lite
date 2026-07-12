@@ -1,30 +1,74 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:helpdesk_lite/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:helpdesk_lite/features/auth/data/repositories/mock_auth_repository.dart';
+import 'package:helpdesk_lite/features/auth/domain/usecases/get_authenticated_user_usecase.dart';
+import 'package:helpdesk_lite/features/auth/domain/usecases/login_usecase.dart';
+import 'package:helpdesk_lite/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:helpdesk_lite/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:helpdesk_lite/features/auth/presentation/pages/login_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
+  late AuthBloc authBloc;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    final sharedPrefs = await SharedPreferences.getInstance();
+    final repo = MockAuthRepository(sharedPreferences: sharedPrefs);
+    authBloc = AuthBloc(
+      loginUseCase: LoginUseCase(repo),
+      logoutUseCase: LogoutUseCase(repo),
+      getAuthenticatedUserUseCase: GetAuthenticatedUserUseCase(repo),
+    );
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  tearDown(() {
+    authBloc.close();
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  Widget createWidgetUnderValues(Widget child) {
+    return BlocProvider<AuthBloc>.value(
+      value: authBloc,
+      child: MaterialApp(
+        home: child,
+      ),
+    );
+  }
+
+  group('LoginPage Widget Tests', () {
+    testWidgets('should render login layout fields and headers', (WidgetTester tester) async {
+      await tester.pumpWidget(createWidgetUnderValues(const LoginPage()));
+
+      // Verify branding headers are shown
+      expect(find.text('HelpDesk Lite'), findsOneWidget);
+      expect(find.text('Sign in to your internal support workspace'), findsOneWidget);
+
+      // Verify form input labels
+      expect(find.text('Corporate Email'), findsOneWidget);
+      expect(find.text('Password'), findsOneWidget);
+
+      // Verify submit button is rendered
+      expect(find.text('Log In'), findsOneWidget);
+
+      // Verify mock credentials quick links section is rendered
+      expect(find.text('Quick access mock roles:'), findsOneWidget);
+      expect(find.text('employee@company.com'), findsOneWidget);
+      expect(find.text('support@company.com'), findsOneWidget);
+      expect(find.text('manager@company.com'), findsOneWidget);
+    });
+
+    testWidgets('should show validation messages on blank inputs submit', (WidgetTester tester) async {
+      await tester.pumpWidget(createWidgetUnderValues(const LoginPage()));
+
+      // Tap Log In without filling details
+      await tester.tap(find.text('Log In'));
+      await tester.pumpAndSettle();
+
+      // Check validation error texts appear
+      expect(find.text('Email is required'), findsOneWidget);
+      expect(find.text('Password is required'), findsOneWidget);
+    });
   });
 }
