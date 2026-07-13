@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/custom_button.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/loading_indicator.dart';
 import '../../../../core/widgets/responsive_layout.dart';
@@ -91,11 +90,13 @@ class _TicketsListPageState extends State<TicketsListPage> {
 
   Widget _buildFilterPanel(BuildContext context, TicketState state) {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      border: const Border(
-        bottom: BorderSide(color: AppColors.border, width: 1),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          bottom: BorderSide(color: AppColors.border, width: 1),
+        ),
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -341,19 +342,19 @@ class _TicketsListPageState extends State<TicketsListPage> {
     Color fg;
     switch (status) {
       case TicketStatus.newStatus:
-        bg = AppColors.statusNew.withOpacity(0.12);
+        bg = AppColors.statusNew.withValues(alpha:0.12);
         fg = AppColors.statusNew;
         break;
       case TicketStatus.inProgress:
-        bg = AppColors.statusInProgress.withOpacity(0.12);
+        bg = AppColors.statusInProgress.withValues(alpha:0.12);
         fg = AppColors.statusInProgress;
         break;
       case TicketStatus.resolved:
-        bg = AppColors.statusResolved.withOpacity(0.12);
+        bg = AppColors.statusResolved.withValues(alpha:0.12);
         fg = AppColors.statusResolved;
         break;
       case TicketStatus.closed:
-        bg = AppColors.statusClosed.withOpacity(0.12);
+        bg = AppColors.statusClosed.withValues(alpha:0.12);
         fg = AppColors.statusClosed;
         break;
     }
@@ -389,9 +390,9 @@ class _TicketsListPageState extends State<TicketsListPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha:0.3)),
       ),
       child: Text(
         priority.displayName,

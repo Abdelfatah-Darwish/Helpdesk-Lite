@@ -2,7 +2,6 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:helpdesk_lite/features/auth/data/repositories/mock_auth_repository.dart';
-import 'package:helpdesk_lite/features/auth/domain/entities/user.dart';
 import 'package:helpdesk_lite/features/auth/domain/usecases/get_authenticated_user_usecase.dart';
 import 'package:helpdesk_lite/features/auth/domain/usecases/login_usecase.dart';
 import 'package:helpdesk_lite/features/auth/domain/usecases/logout_usecase.dart';
@@ -47,6 +46,7 @@ void main() {
       'should emit [AuthLoading, Unauthenticated] when checking status on empty cache',
       build: () => authBloc,
       act: (bloc) => bloc.add(CheckAuthStatus()),
+      wait: const Duration(milliseconds: 100),
       expect: () => [
         AuthLoading(),
         Unauthenticated(),
@@ -60,6 +60,7 @@ void main() {
         email: 'employee@company.com',
         password: 'password123',
       )),
+      wait: const Duration(milliseconds: 900),
       expect: () => [
         AuthLoading(),
         isA<Authenticated>().having((a) => a.user.email, 'email', 'employee@company.com')
@@ -73,6 +74,7 @@ void main() {
         email: 'wrong@company.com',
         password: 'wrongpassword',
       )),
+      wait: const Duration(milliseconds: 900),
       expect: () => [
         AuthLoading(),
         isA<AuthError>().having((e) => e.message, 'message', 'Invalid email or password')
@@ -82,7 +84,11 @@ void main() {
     blocTest<AuthBloc, AuthState>(
       'should emit [AuthLoading, Unauthenticated] when logout is requested',
       build: () => authBloc,
-      act: (bloc) => bloc.add(LogoutRequested()),
+      act: (bloc) async {
+        await repository.login('employee@company.com', 'password123');
+        bloc.add(LogoutRequested());
+      },
+      wait: const Duration(milliseconds: 1200),
       expect: () => [
         AuthLoading(),
         Unauthenticated(),

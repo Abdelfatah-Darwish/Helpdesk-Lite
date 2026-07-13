@@ -227,7 +227,8 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
             const Text('Change Status', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
             const SizedBox(height: 6),
             DropdownButtonFormField<TicketStatus>(
-              value: _localTicket.status,
+              key: ValueKey(_localTicket.status),
+              initialValue: _localTicket.status,
               decoration: const InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8)),
               items: TicketStatus.values
                   .map((s) => DropdownMenuItem(
@@ -254,7 +255,8 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
             const Text('Assign Ticket', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
             const SizedBox(height: 6),
             DropdownButtonFormField<String?>(
-              value: _localTicket.assignedStaffId,
+              key: ValueKey(_localTicket.assignedStaffId),
+              initialValue: _localTicket.assignedStaffId,
               decoration: const InputDecoration(contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8)),
               hint: const Text('Select Agent', style: TextStyle(fontSize: 14)),
               items: [
@@ -341,7 +343,7 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColors.secondary.withOpacity(0.08),
+        color: AppColors.secondary.withValues(alpha:0.08),
         borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
@@ -356,19 +358,19 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     Color fg;
     switch (status) {
       case TicketStatus.newStatus:
-        bg = AppColors.statusNew.withOpacity(0.12);
+        bg = AppColors.statusNew.withValues(alpha:0.12);
         fg = AppColors.statusNew;
         break;
       case TicketStatus.inProgress:
-        bg = AppColors.statusInProgress.withOpacity(0.12);
+        bg = AppColors.statusInProgress.withValues(alpha:0.12);
         fg = AppColors.statusInProgress;
         break;
       case TicketStatus.resolved:
-        bg = AppColors.statusResolved.withOpacity(0.12);
+        bg = AppColors.statusResolved.withValues(alpha:0.12);
         fg = AppColors.statusResolved;
         break;
       case TicketStatus.closed:
-        bg = AppColors.statusClosed.withOpacity(0.12);
+        bg = AppColors.statusClosed.withValues(alpha:0.12);
         fg = AppColors.statusClosed;
         break;
     }
@@ -404,9 +406,9 @@ class _TicketDetailsPageState extends State<TicketDetailsPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha:0.3)),
       ),
       child: Text(
         priority.displayName,

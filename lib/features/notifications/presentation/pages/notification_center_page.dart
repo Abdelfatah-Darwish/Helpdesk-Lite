@@ -6,8 +6,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/empty_state.dart';
 import '../../../../core/widgets/loading_indicator.dart';
 import '../../../../core/widgets/workspace_shell.dart';
-import '../../../tickets/presentation/bloc/ticket_bloc.dart';
-import '../../../tickets/presentation/bloc/ticket_event.dart';
 import '../bloc/notification_bloc.dart';
 import '../bloc/notification_event.dart';
 import '../bloc/notification_state.dart';
@@ -48,11 +46,13 @@ class _NotificationCenterPageState extends State<NotificationCenterPage> {
             children: [
               // Operations Header
               Container(
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                border: const Border(
-                  bottom: BorderSide(color: AppColors.border),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.border),
+                  ),
                 ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -84,13 +84,13 @@ class _NotificationCenterPageState extends State<NotificationCenterPage> {
                     itemBuilder: (context, index) {
                       final item = state.notifications[index];
                       return Container(
-                        color: item.isRead ? Colors.transparent : AppColors.primary.withOpacity(0.02),
+                        color: item.isRead ? Colors.transparent : AppColors.primary.withValues(alpha:0.02),
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                           leading: Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: item.isRead ? AppColors.border.withOpacity(0.3) : AppColors.primary.withOpacity(0.1),
+                              color: item.isRead ? AppColors.border.withValues(alpha:0.3) : AppColors.primary.withValues(alpha:0.1),
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
@@ -108,7 +108,7 @@ class _NotificationCenterPageState extends State<NotificationCenterPage> {
                             ),
                           ),
                           subtitle: Padding(
-                            padding: const EdgeInsets.topForLargePhones ?? const EdgeInsets.only(top: 6),
+                            padding: const EdgeInsets.only(top: 6),
                             child: Text(
                               DateFormat('MMM d, y • h:mm a').format(item.createdAt),
                               style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),

@@ -98,9 +98,10 @@ class ChartPlaceholder extends StatelessWidget {
           const SizedBox(height: 32),
 
           // Legend Indicators
-          Row(
-            flexWrap: WrapFlexCheck.wrap, // Handle wrapping on tiny screens
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            spacing: 16,
+            runSpacing: 12,
+            alignment: WrapAlignment.spaceBetween,
             children: [
               _buildLegendItem('New', newCount, AppColors.statusNew, '${(newPct * 100).toStringAsFixed(0)}%'),
               _buildLegendItem('In Progress', inProgressCount, AppColors.statusInProgress, '${(progressPct * 100).toStringAsFixed(0)}%'),
@@ -151,9 +152,4 @@ class ChartPlaceholder extends StatelessWidget {
       ],
     );
   }
-}
-
-// Helper to make wrap work inside row if needed
-extension WrapFlexCheck on Row {
-  static const wrap = null;
 }

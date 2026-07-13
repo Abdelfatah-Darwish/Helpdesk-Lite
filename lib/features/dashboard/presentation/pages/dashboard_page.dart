@@ -449,7 +449,7 @@ class _DashboardPageState extends State<DashboardPage> {
           Text(
             sub,
             style: TextStyle(
-              color: Colors.white.withOpacity(0.85),
+              color: Colors.white.withValues(alpha:0.85),
               fontSize: 14,
             ),
           ),
@@ -635,19 +635,19 @@ class _DashboardPageState extends State<DashboardPage> {
     Color fg;
     switch (status) {
       case TicketStatus.newStatus:
-        bg = AppColors.statusNew.withOpacity(0.12);
+        bg = AppColors.statusNew.withValues(alpha:0.12);
         fg = AppColors.statusNew;
         break;
       case TicketStatus.inProgress:
-        bg = AppColors.statusInProgress.withOpacity(0.12);
+        bg = AppColors.statusInProgress.withValues(alpha:0.12);
         fg = AppColors.statusInProgress;
         break;
       case TicketStatus.resolved:
-        bg = AppColors.statusResolved.withOpacity(0.12);
+        bg = AppColors.statusResolved.withValues(alpha:0.12);
         fg = AppColors.statusResolved;
         break;
       case TicketStatus.closed:
-        bg = AppColors.statusClosed.withOpacity(0.12);
+        bg = AppColors.statusClosed.withValues(alpha:0.12);
         fg = AppColors.statusClosed;
         break;
     }
@@ -683,9 +683,9 @@ class _DashboardPageState extends State<DashboardPage> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha:0.1),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha:0.3)),
       ),
       child: Text(
         priority.displayName,

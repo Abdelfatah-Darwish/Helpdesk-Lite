@@ -167,7 +167,8 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                       ),
                       const SizedBox(height: 6),
                       DropdownButtonFormField<TicketCategory>(
-                        value: _selectedCategory,
+                        key: ValueKey(_selectedCategory),
+                        initialValue: _selectedCategory,
                         items: TicketCategory.values
                             .map((c) => DropdownMenuItem(
                                   value: c,
@@ -196,7 +197,8 @@ class _CreateTicketPageState extends State<CreateTicketPage> {
                       ),
                       const SizedBox(height: 6),
                       DropdownButtonFormField<TicketPriority>(
-                        value: _selectedPriority,
+                        key: ValueKey(_selectedPriority),
+                        initialValue: _selectedPriority,
                         items: TicketPriority.values
                             .map((p) => DropdownMenuItem(
                                   value: p,

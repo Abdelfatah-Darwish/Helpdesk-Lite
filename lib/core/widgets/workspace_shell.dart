@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/auth/presentation/bloc/auth_event.dart';
+import '../../features/auth/presentation/bloc/auth_state.dart';
 import '../../features/notifications/presentation/bloc/notification_bloc.dart';
 import '../../features/notifications/presentation/bloc/notification_state.dart';
 import '../theme/app_colors.dart';
@@ -234,8 +235,10 @@ class WorkspaceShell extends StatelessWidget {
           // Logo/Brand area
           Container(
             padding: const EdgeInsets.all(24),
-            border: const Border(
-              bottom: BorderSide(color: AppColors.border, width: 1),
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: AppColors.border, width: 1),
+              ),
             ),
             child: const Row(
               children: [
@@ -287,7 +290,7 @@ class WorkspaceShell extends StatelessWidget {
               children: [
                 Text(
                   'Workspace v1.0',
-                  style: TextStyle(color: AppColors.textSecondary.withOpacity(0.6), fontSize: 11),
+                  style: TextStyle(color: AppColors.textSecondary.withValues(alpha: 0.6), fontSize: 11),
                 ),
               ],
             ),
@@ -313,7 +316,7 @@ class WorkspaceShell extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.primary.withOpacity(0.08) : Colors.transparent,
+            color: isActive ? AppColors.primary.withValues(alpha: 0.08) : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(

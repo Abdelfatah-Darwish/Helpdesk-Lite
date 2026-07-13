@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/error/failures.dart';
+import '../../../../core/error/failures.dart';
 import '../../domain/usecases/get_authenticated_user_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
@@ -49,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on Failure catch (failure) {
       emit(AuthError(failure.message));
     } catch (e) {
-      emit(AuthError('An unexpected error occurred during login. Please try again.'));
+      emit(const AuthError('An unexpected error occurred during login. Please try again.'));
     }
   }
 

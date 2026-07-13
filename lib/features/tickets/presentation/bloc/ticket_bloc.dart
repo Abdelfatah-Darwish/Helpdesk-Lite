@@ -13,10 +13,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
   final AssignTicketUseCase assignTicketUseCase;
   final UpdateTicketStatusUseCase updateTicketStatusUseCase;
 
-  // Track user information to allow self-reloading
-  String? _lastUserId;
-  dynamic _lastRole;
-
   TicketBloc({
     required this.getTicketsUseCase,
     required this.createTicketUseCase,
@@ -36,8 +32,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     FetchTickets event,
     Emitter<TicketState> emit,
   ) async {
-    _lastUserId = event.userId;
-    _lastRole = event.role;
     emit(state.copyWith(isLoading: true, isSuccess: false));
     try {
       final tickets = await getTicketsUseCase(
@@ -204,9 +198,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     FilterTicketsChanged event,
     Emitter<TicketState> emit,
   ) {
-    // Keep existing or change
-    final status = event.status == null ? state.filterStatus : (event.status == TicketStatus.newStatus && state.filterStatus == TicketStatus.newStatus ? null : event.status);
-    
     final filtered = _filterTickets(
       tickets: state.allTickets,
       query: state.searchQuery,

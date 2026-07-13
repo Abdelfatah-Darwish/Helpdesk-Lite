@@ -11,10 +11,10 @@ import 'features/tickets/presentation/bloc/ticket_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize dependency injection locator
   await di.init();
-  
+
   runApp(const MyApp());
 }
 
@@ -42,11 +42,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<AuthBloc>(
           create: (context) => di.sl<AuthBloc>()..add(CheckAuthStatus()),
         ),
-        BlocProvider<TicketBloc>(
-          create: (context) => di.sl<TicketBloc>(),
-        ),
+        BlocProvider<TicketBloc>(create: (context) => di.sl<TicketBloc>()),
         BlocProvider<NotificationBloc>(
-          create: (context) => di.sl<NotificationBloc>()..add(FetchNotifications()),
+          create: (context) =>
+              di.sl<NotificationBloc>()..add(FetchNotifications()),
         ),
       ],
       child: MaterialApp.router(

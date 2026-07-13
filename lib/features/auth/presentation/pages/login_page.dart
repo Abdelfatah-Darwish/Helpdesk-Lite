@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               border: Border.all(color: AppColors.border),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.02),
+                  color: Colors.black.withValues(alpha: 0.02),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 )
@@ -200,20 +200,27 @@ class _LoginPageState extends State<LoginPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              roleLabel,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                color: AppColors.textPrimary,
+            Flexible(
+              child: Text(
+                roleLabel,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: AppColors.textPrimary,
+                ),
               ),
             ),
-            Text(
-              email,
-              style: const TextStyle(
-                color: AppColors.primary,
-                fontSize: 12,
-                decoration: TextDecoration.underline,
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                email,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 12,
+                  decoration: TextDecoration.underline,
+                ),
               ),
             ),
           ],
