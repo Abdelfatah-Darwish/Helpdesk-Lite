@@ -39,13 +39,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(
-          create: (context) => di.sl<AuthBloc>()..add(CheckAuthStatus()),
+        BlocProvider<AuthBloc>.value(
+          value: di.sl<AuthBloc>()..add(CheckAuthStatus()),
         ),
-        BlocProvider<TicketBloc>(create: (context) => di.sl<TicketBloc>()),
+        BlocProvider<TicketBloc>(create: (_) => di.sl<TicketBloc>()),
         BlocProvider<NotificationBloc>(
-          create: (context) =>
-              di.sl<NotificationBloc>()..add(FetchNotifications()),
+          create: (_) => di.sl<NotificationBloc>()..add(FetchNotifications()),
         ),
       ],
       child: MaterialApp.router(
